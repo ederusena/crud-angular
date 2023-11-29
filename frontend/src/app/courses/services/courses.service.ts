@@ -8,17 +8,14 @@ import { Course } from './../models/course';
   providedIn: 'root',
 })
 export class CoursesService {
+  private readonly API = '/assets/courses.json';
+
   // httpclient vai ser fornecido pelo angular automaticamente
   // angular vai fornecer a instancia automaticamente
   constructor(private httpClient: HttpClient) {}
 
-  list(): Course[] {
-    return [
-      { _id: 1, name: 'Vue', category: 'Frontend' },
-      { _id: 2, name: 'Angular', category: 'Frontend' },
-      { _id: 3, name: 'React', category: 'Frontend' },
-      { _id: 4, name: 'Node', category: 'Backend' },
-      { _id: 5, name: 'Express', category: 'Backend' },
-    ]
+  list() {
+    return this.httpClient.get<Course[]>(this.API)
   }
 }
+

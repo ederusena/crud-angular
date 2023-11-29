@@ -98,3 +98,49 @@ export class CoursesComponent {
 }
 
 ```
+
+## Chamada HTTP Get no Angular e RXJS
+
+```ts -> Courses Components
+import { Observable } from 'rxjs'
+import { tap, first } from 'rxjs/operators'
+
+import { CoursesService } from '../services/courses.service'
+import { Course } from './../models/course'
+
+@Component({
+})
+export class CoursesComponent {
+  courses: Observable<Course[]>
+  displayedColumns: string[] = ['name', 'categoria']
+
+  constructor(private courseService: CoursesService) {
+    this.courses = this.courseService
+      .list()
+      .pipe(
+        first(),
+        tap((courses) => console.log(courses))
+      )
+  }
+
+  ngOnInit(): void {}
+}
+```
+
+```ts -> Courses Service
+import { HttpClient } from '@angular/common/http';
+import { Injectable } from '@angular/core';
+import { Course } from './../models/course';
+
+@Injectable({
+})
+export class CoursesService {
+  private readonly API = '/assets/courses.json';
+
+  constructor(private httpClient: HttpClient) {}
+
+  list() {
+    return this.httpClient.get<Course[]>(this.API)
+  }
+}
+```

@@ -1,21 +1,20 @@
-import { Component } from '@angular/core';
-import { Course } from './../models/course';
+import { Component } from '@angular/core'
 
+import { Course } from './../models/course'
+import { CoursesService } from '../services/courses.service'
 
 @Component({
   selector: 'app-courses',
   templateUrl: './courses.component.html',
-  styleUrl: './courses.component.scss'
+  styleUrl: './courses.component.scss',
 })
-
-
 export class CoursesComponent {
-  courses: Course[] = [
-    {_id: 1, name: 'Vue', category: 'Frontend'},
-    {_id: 2, name: 'Angular', category: 'Frontend'},
-    {_id: 3, name: 'React', category: 'Frontend'},
-    {_id: 4, name: 'Node', category: 'Backend'},
-    {_id: 5, name: 'Express', category: 'Backend'}
-  ];
-  displayedColumns: string[] = ['name', 'categoria'];
+  courses: Course[] = []
+  displayedColumns: string[] = ['name', 'categoria']
+
+  constructor(private courseService: CoursesService) {}
+
+  ngOnInit(): void {
+    this.courses = this.courseService.list()
+  }
 }
